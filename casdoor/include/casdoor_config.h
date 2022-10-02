@@ -64,7 +64,17 @@ public:
 
 	Json::Value* DeleteUser(CasdoorUser user);
 
+    inline std::string getEndPoint() {return m_endpoint;}
+
     inline std::string getClientId() {return m_client_id;}
+
+    inline std::string getCertificate() {return m_certificate;}
+
+    inline std::string getOrgName() {return m_org_name;}
+
+    inline std::string getAppName() {return m_app_name;}
+
+    inline std::string getGrantType() {return m_grant_type;}
 };
 
 #endif

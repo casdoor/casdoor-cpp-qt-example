@@ -10,6 +10,10 @@ Example contains 2 parts:
 | Frontend | Qt SDK  | Qt | https://github.com/casdoor/casdoor-cpp-qt-example |
 | Backend  | casdoor-cpp-sdk | c++             | https://github.com/casdoor/casdoor-cpp-sdk                |
 
+## Demo
+
+   <img src=".\doc\fig\casdoor_cpp_qt.gif" style="zoom: 67%;" />
+
 ## Supported Enviroments (Tested)
 
 This example is tested on the following envrioments: 

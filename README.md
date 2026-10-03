@@ -1,6 +1,17 @@
 <h1 align="center" style="border-bottom: none;">📦⚡️casdoor cpp qt example</h1>
 <h3 align="center">A Qt desktop app that signs in with Casdoor, using <a href="https://github.com/casdoor/casdoor-cpp-sdk">casdoor-cpp-sdk</a></h3>
 
+<p align="center">
+  <a href="https://www.qt.io"><img alt="Qt 6" src="https://img.shields.io/badge/Qt-6-41CD52?logo=qt"></a>
+  <a href="https://en.cppreference.com/w/cpp/17"><img alt="C++17" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus"></a>
+  <a href="https://cmake.org"><img alt="CMake" src="https://img.shields.io/badge/CMake-3.16%2B-064F8C?logo=cmake"></a>
+  <a href="https://github.com/casdoor/casdoor-cpp-sdk"><img alt="casdoor-cpp-sdk" src="https://img.shields.io/badge/SDK-casdoor--cpp--sdk-blue"></a>
+  <a href="https://github.com/casdoor/casdoor-cpp-qt-example/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/github/license/casdoor/casdoor-cpp-qt-example"></a>
+  <a href="https://github.com/casdoor/casdoor-cpp-qt-example/commits/master"><img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/casdoor/casdoor-cpp-qt-example"></a>
+  <a href="https://github.com/casdoor/casdoor-cpp-qt-example/issues"><img alt="GitHub issues" src="https://img.shields.io/github/issues/casdoor/casdoor-cpp-qt-example"></a>
+  <a href="https://discord.gg/5rPsrAzK7S"><img alt="Discord" src="https://img.shields.io/discord/1022748306096537660?logo=discord&label=discord&color=5865F2"></a>
+</p>
+
 ## Demo
 
 <img src="./doc/fig/casdoor_cpp_qt.gif" style="zoom: 67%;" />

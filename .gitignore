@@ -30,3 +30,8 @@
 *.exe
 *.out
 *.app
+
+# Build directories
+build/
+cmake-build-*/
+CMakeLists.txt.user

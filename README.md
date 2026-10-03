@@ -1,159 +1,69 @@
 <h1 align="center" style="border-bottom: none;">📦⚡️casdoor cpp qt example</h1>
-<h3 align="center">An example of casdoor-cpp-sdk</h3>
-
-## Architecture
-
-Example contains 2 parts:
-
-| Name     | SDK              | Language         | Source code                                                     |
-| -------- | ---------------- | ---------------- | --------------------------------------------------------------- |
-| Frontend | Qt SDK  | Qt | https://github.com/casdoor/casdoor-cpp-qt-example |
-| Backend  | casdoor-cpp-sdk | c++             | https://github.com/casdoor/casdoor-cpp-sdk                |
+<h3 align="center">A Qt desktop app that signs in with Casdoor, using <a href="https://github.com/casdoor/casdoor-cpp-sdk">casdoor-cpp-sdk</a></h3>
 
 ## Demo
 
-   <img src=".\doc\fig\casdoor_cpp_qt.gif" style="zoom: 67%;" />
+<img src="./doc/fig/casdoor_cpp_qt.gif" style="zoom: 67%;" />
 
-## Supported Enviroments (Tested)
+Clicking **Sign In** opens the Casdoor sign-in page in an embedded browser (Qt WebEngine). After signing in, Casdoor redirects to the redirect URI with an authorization code. The app catches that redirect inside the embedded browser, exchanges the code for a token with the SDK, verifies the token and shows the user.
 
-This example is tested on the following envrioments: 
+## Requirements
 
-| System      | Qt | Compiler |
-| :------ | ---- | ---- |
-| Win10/Win11 | Qt5.15 | MSVC 2019 |
-| Ubuntu 22.04 | Qt 6.4 | gcc |
+- Qt 6 with the Qt WebEngine module (on Windows, Qt WebEngine needs the MSVC build of Qt)
+- CMake 3.16+ and a C++17 compiler
+- OpenSSL 1.1.1 or 3.x
+- A Casdoor server
 
+casdoor-cpp-sdk is downloaded by CMake when you configure the project, so it doesn't need to be installed.
 
+## Configure Casdoor
 
-## Installation
+1. In Casdoor, create an application (or use an existing one) and add `http://localhost:8080/callback` to its **Redirect URLs**. Nothing needs to listen on that port.
+2. Copy the application's **Client ID** and **Client secret**.
 
-Example uses Casdoor to manage members. So you need to create an organization and an application for the example in a Casdoor instance.
+   <img src="./doc/fig/clientID.png" style="zoom:80%;" />
 
-### Get the code
+3. On the Certs page, copy the public **Certificate** of the cert the application uses.
 
-```shell
-git clone https://github.com/casdoor/casdoor
-git clone https://github.com/casdoor/casdoor-cpp-qt-example
-```
+   <img src="./doc/fig/cert.png" style="zoom:66%;" />
 
-### Windows
-
-Windows11 + MSVC 2019 + Qt 5.15
-
-On Windows, the module `QtWebEngine`  used in this demo is only available under MSVC 2017 or MSVC 2019.
-
-1. Install MSVC 2019:
-
-    [Build Tools for Visual Studio 2019](https://my.visualstudio.com/Downloads?q=visual studio 2019&wt.mc_id=o~msft~vscom~older-downloads)
-
-   [Visual C++ Redistributable for Visual Studio 2019](https://my.visualstudio.com/Downloads?q=visual studio 2019&wt.mc_id=o~msft~vscom~older-downloads)
-
-   
-
-2. Install Qt: using Qt Online installer:
-
-   `[Get and Install Qt with Qt Online Installer](https://doc.qt.io/qt-6/qt-online-installation.html)
-
-   use mirror to download Qt: `.\qt-unified-windows-x86-online.exe --mirror https://mirrors.ustc.edu.cn/qtproject`
-
-3. Add include path in `.pro` file. 
-    ```qt
-    // in ./casdoor-cpp-qt-example.pro
-    INCLUDEPATH += $$quote(D:/Program Files/OpenSSL-Win64/include) // installation path of OpenSSL
-    ```
-
-### Linux
-
-Ubuntu22.04 + gcc + Qt6.4.3
-
-1. Install Qt
-
-   `[Get and Install Qt with Qt Online Installer](https://doc.qt.io/qt-6/qt-online-installation.html)
-
-   use mirror to download Qt: `.\qt-unified-windows-x86-online.exe --mirror https://mirrors.ustc.edu.cn/qtproject`
-
-2. Install Openssl
-
-   Install from Source
-
-   ```shell
-   git clone git://git.openssl.org/openssl.git
-   cd openssl
-   ./Configure --prefix=/usr/local/openssl
-   make && make install
-   ```
-
-3. Modify Include Path/File 
+4. Put these values in [config.h](config.h):
 
    ```cpp
-   // in ./casdoor-cpp-qt-example.pro
-   INCLUDEPATH += "/user/local/openssl/include/openssl" // installation path of OpenSSL
-   
-   // in mainwindow.h add
-   #include <QTcpSocket>
+   inline constexpr const char* kCasdoorEndpoint = "http://localhost:8000";
+   inline constexpr const char* kClientId = "<client ID>";
+   inline constexpr const char* kClientSecret = "<client secret>";
+   inline constexpr const char* kOrganizationName = "<organization>";
+   inline constexpr const char* kApplicationName = "<application>";
+   inline constexpr const char* kRedirectUri = "http://localhost:8080/callback";
+   inline constexpr const char* kCertificate = R"(-----BEGIN CERTIFICATE-----
+   ...
+   -----END CERTIFICATE-----)";
    ```
-   
-   
-   
 
-### Configure Application in Casdoor
+## Build and run
 
-1. Setup your Casdoor Applicaiton
+Open `CMakeLists.txt` in Qt Creator and run it, or from the command line:
 
-   Set redirect URL for your Applicaiotn :  eg. `http://localhost:11000/callback`
+```bash
+cmake -S . -B build -DCMAKE_PREFIX_PATH=/path/to/Qt/6.x/<compiler>
+cmake --build build
+./build/casdoor-cpp-qt-example
+```
 
-   Remember the `Client ID` and `Client secert` in the Application page
+On Windows, if CMake can't find OpenSSL, add `-DOPENSSL_ROOT_DIR="C:/Program Files/OpenSSL-Win64"`.
 
-   
-   <img src=".\doc\fig\clientID.png" style="zoom:80%;" />
-   
-   Copy the public `Certificate` in the Cert page.
-   
-   <img src=".\doc\fig\cert.png" style="zoom:66%;" />
+To build against a local checkout of casdoor-cpp-sdk instead of the one on GitHub, add `-DFETCHCONTENT_SOURCE_DIR_CASDOOR=/path/to/casdoor-cpp-sdk`.
 
-### Configure  Casdoor SDK
+On Ubuntu, the dependencies can be installed with:
 
-1. Configure SDK
-   
-    ```cpp
-    // in ./mainwindow.h
-    std::string endpoint = "http://localhost:7001"; //front-end
-    std::string client_id = "3386b5767bbedeecd9d9";
-    std::string client_secret = "2a576a2fc4293d5da8f10e1e42399fc973a50ba6";
-    std::string certificate = R"(-----BEGIN CERTIFICATE-----
-    -----END CERTIFICATE-----)";
-    std::string org_name = "casbin-forum";
-    std::string app_name = "app-qt";
-    std::string redirect_url = "http://localhost:11000/callback";
-    std::string response_type = "code";
-    std::string scope = "read";
-    ```
-    
-    
-    ```cpp
-    // in ./mainwindow.cpp
-    
-    // MainWindow::initTcpServer
-    m_tcpserver->listen(QHostAddress::LocalHost, 8080); // port where tcp server listen
-    
-    // MainWindow::on_auth_code_received
-    if(url.toString().startsWith("http://localhost:11000/callback"))  // redirect_url
-    ```
-    
-    
-    ```cpp
-    // in ./mainwindow.cpp
-    CasdoorConfig* casdoor = new CasdoorConfig(
-        "http://localhost:7001", // Casdoor Frontend Url
-        "3efd29ff3e0b14ba1dd7", // client id
-        "34cb65d634b06a49f14c6bc49884ce1df55ce518", // client secret
-        cert, // certificate
-        "built-in" // organization
-    );
-    ```
+```bash
+sudo apt install cmake g++ libssl-dev qt6-base-dev qt6-webengine-dev libgl-dev
+```
 
+## How it works
 
-5. Run Qt Application in QtCreater
-
-
-   <img src=".\doc\fig\casdoor_cpp_qt.gif" style="zoom: 67%;" />
+- [mainwindow.cpp](mainwindow.cpp) builds the sign-in URL with `casdoor::Client::GetSigninUrl` and a random `state`.
+- `CallbackPage::acceptNavigationRequest` stops the embedded browser when it's about to load the redirect URI and passes the URL to the window.
+- The window checks `state`, then calls `GetOAuthToken(code)` and `ParseJwtToken(token.access_token)`, which verifies the token's signature with the certificate.
+- **Sign Out** deletes the embedded browser's cookies, so the next sign-in asks for the password again.

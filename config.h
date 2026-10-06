@@ -5,12 +5,13 @@
 // edit page in Casdoor. The redirect URI must be added to the application's
 // "Redirect URLs". Nothing needs to listen on it: the example catches the
 // redirect inside the embedded browser.
+// The defaults are the public demo server https://door.casdoor.com
 
-inline constexpr const char* kCasdoorEndpoint = "http://localhost:8000";
-inline constexpr const char* kClientId = "3efd29ff3e0b14ba1dd7";
-inline constexpr const char* kClientSecret = "34cb65d634b06a49f14c6bc49884ce1df55ce518";
-inline constexpr const char* kOrganizationName = "built-in";
-inline constexpr const char* kApplicationName = "app-built-in";
+inline constexpr const char* kCasdoorEndpoint = "https://door.casdoor.com";
+inline constexpr const char* kClientId = "294b09fbc17f95daf2fe";
+inline constexpr const char* kClientSecret = "dd8982f7046ccba1bbd7851d5c1ece4e52bf039d";
+inline constexpr const char* kOrganizationName = "casbin";
+inline constexpr const char* kApplicationName = "app-vue-python-example";
 inline constexpr const char* kRedirectUri = "http://localhost:8080/callback";
 
 // Public certificate of the application's cert, from the cert's edit page in Casdoor.

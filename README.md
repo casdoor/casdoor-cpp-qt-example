@@ -2,6 +2,7 @@
 <h3 align="center">A Qt desktop app that signs in with Casdoor, using <a href="https://github.com/casdoor/casdoor-cpp-sdk">casdoor-cpp-sdk</a></h3>
 
 <p align="center">
+  <a href="https://github.com/casdoor/casdoor-cpp-qt-example/actions/workflows/build.yml"><img alt="Build" src="https://github.com/casdoor/casdoor-cpp-qt-example/actions/workflows/build.yml/badge.svg"></a>
   <a href="https://www.qt.io"><img alt="Qt 6" src="https://img.shields.io/badge/Qt-6-41CD52?logo=qt"></a>
   <a href="https://en.cppreference.com/w/cpp/17"><img alt="C++17" src="https://img.shields.io/badge/C%2B%2B-17-00599C?logo=cplusplus"></a>
   <a href="https://cmake.org"><img alt="CMake" src="https://img.shields.io/badge/CMake-3.16%2B-064F8C?logo=cmake"></a>
@@ -23,11 +24,13 @@ Clicking **Sign In** opens the Casdoor sign-in page in an embedded browser (Qt W
 - Qt 6 with the Qt WebEngine module (on Windows, Qt WebEngine needs the MSVC build of Qt)
 - CMake 3.16+ and a C++17 compiler
 - OpenSSL 1.1.1 or 3.x
-- A Casdoor server
+- A Casdoor server. The example is preconfigured for the public demo server https://door.casdoor.com, so it runs as is: sign in with username `admin` and password `123`. To use your own, see [Casdoor installation](https://casdoor.ai/docs/basic/server-installation).
 
 casdoor-cpp-sdk is downloaded by CMake when you configure the project, so it doesn't need to be installed.
 
 ## Configure Casdoor
+
+Skip this section to try the example with the public demo server.
 
 1. In Casdoor, create an application (or use an existing one) and add `http://localhost:8080/callback` to its **Redirect URLs**. Nothing needs to listen on that port.
 2. Copy the application's **Client ID** and **Client secret**.
@@ -41,7 +44,7 @@ casdoor-cpp-sdk is downloaded by CMake when you configure the project, so it doe
 4. Put these values in [config.h](config.h):
 
    ```cpp
-   inline constexpr const char* kCasdoorEndpoint = "http://localhost:8000";
+   inline constexpr const char* kCasdoorEndpoint = "https://door.casdoor.com";
    inline constexpr const char* kClientId = "<client ID>";
    inline constexpr const char* kClientSecret = "<client secret>";
    inline constexpr const char* kOrganizationName = "<organization>";
@@ -78,3 +81,12 @@ sudo apt install cmake g++ libssl-dev qt6-base-dev qt6-webengine-dev libgl-dev
 - `CallbackPage::acceptNavigationRequest` stops the embedded browser when it's about to load the redirect URI and passes the URL to the window.
 - The window checks `state`, then calls `GetOAuthToken(code)` and `ParseJwtToken(token.access_token)`, which verifies the token's signature with the certificate.
 - **Sign Out** deletes the embedded browser's cookies, so the next sign-in asks for the password again.
+
+## Resources
+
+- [Casdoor documentation](https://casdoor.ai/docs/overview)
+- [casdoor-cpp-sdk](https://github.com/casdoor/casdoor-cpp-sdk)
+
+## License
+
+[Apache-2.0](LICENSE)

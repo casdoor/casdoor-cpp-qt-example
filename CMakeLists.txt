@@ -13,7 +13,7 @@ find_package(Qt6 REQUIRED COMPONENTS Widgets WebEngineWidgets)
 include(FetchContent)
 FetchContent_Declare(casdoor
     GIT_REPOSITORY https://github.com/casdoor/casdoor-cpp-sdk.git
-    GIT_TAG master)
+    GIT_TAG v1.0.1)
 set(CASDOOR_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 set(CASDOOR_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(casdoor)
